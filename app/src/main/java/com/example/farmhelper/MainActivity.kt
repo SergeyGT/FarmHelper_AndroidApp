@@ -1,5 +1,6 @@
 package com.example.farmhelper
 import User
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.widget.ArrayAdapter
@@ -24,6 +25,13 @@ class MainActivity : AppCompatActivity() {
         val btnSign: Button = findViewById(R.id.buttonSign)
 
         val clrMain = loginUser.currentHintTextColor
+
+        val auth: TextView = findViewById(R.id.auth)
+
+        auth.setOnClickListener {
+            val intent_reg = Intent(this, authUser::class.java)
+            startActivity(intent_reg)
+        }
 
         btnSign.setOnClickListener {
             val login = loginUser.text.toString().trim()
