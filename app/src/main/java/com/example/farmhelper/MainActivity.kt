@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity() {
         auth.setOnClickListener {
             val intent_reg = Intent(this, authUser::class.java)
             startActivity(intent_reg)
+
         }
 
         btnSign.setOnClickListener {
@@ -59,6 +60,9 @@ class MainActivity : AppCompatActivity() {
 
                 loginUser.text.clear()
                 passUser.text.clear()
+
+                val intentToSign = Intent(this, mainPage::class.java)
+                startActivity(intentToSign)
 
             }
         }
