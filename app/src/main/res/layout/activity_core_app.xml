@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#d0f280"
+    android:orientation="vertical"
     tools:context=".coreApp">
 
     <TextView
@@ -26,8 +27,10 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/staffList"
         android:layout_width="358dp"
-        android:layout_height="530dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/addPerson"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,13 +42,26 @@
         android:id="@+id/switchTheme1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:checked="true"
         android:minHeight="48dp"
         android:text="Фон"
-        android:checked="true"
         app:layout_constraintBottom_toTopOf="@+id/staffList"
         app:layout_constraintEnd_toStartOf="@+id/labelStuff"
-        app:layout_constraintHorizontal_bias="0.53"
+        app:layout_constraintHorizontal_bias="0.555"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.232" />
+
+    <Button
+        android:id="@+id/addPerson"
+        android:layout_width="238dp"
+        android:layout_height="48dp"
+        android:backgroundTint="#0B75E2"
+        android:text="Добавить сотрудника"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.976" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

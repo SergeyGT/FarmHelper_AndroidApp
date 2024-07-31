@@ -1,11 +1,14 @@
 package com.example.farmhelper
 
+import android.app.Activity
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.widget.Button
 import android.widget.Switch
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
@@ -24,15 +27,43 @@ class coreApp : AppCompatActivity() {
         // val btnCash: Button = findViewById(R.id.btnStuffCash)
         val staff: RecyclerView = findViewById(R.id.staffList)
         val labelStaff: TextView = findViewById(R.id.labelStuff)
+        val btnAdd: Button = findViewById(R.id.addPerson)
 
-        val persons = arrayListOf<Personal>()
+        val persons: MutableList<Personal> = arrayListOf()
+        persons.clear()
         persons.add(Personal(1, "Баранцов Петр Иванович", "Тракторист", 3.5,
             "Орошение", "base"))
         persons.add(Personal(2, "Парфенов Василий Сергеевич", "Тракторист", 9.5,
             "Посев", "base"))
 
+        val adapter = personAdapter(persons, this)
         staff.layoutManager = LinearLayoutManager(this)
-        staff.adapter = personAdapter(persons, this)
+        staff.adapter = adapter
+
+        // Обработка результата из addPersonal
+        val addPersonResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data: Intent? = result.data
+                val newFio = data?.getStringExtra("FIO") ?: return@registerForActivityResult
+                val newProf = data?.getStringExtra("PROF") ?: return@registerForActivityResult
+
+                val newId = persons.size + 1 // Новый ID для нового сотрудника
+                val newPerson = Personal(newId, newFio, newProf, 0.0, "Новая работа", "base")
+
+                // Добавление нового сотрудника в список и уведомление адаптера об изменениях
+                persons.add(newPerson)
+                adapter.notifyItemInserted(persons.size - 1)
+            }
+        }
+
+        btnAdd.setOnClickListener {
+            val intent = Intent(this, addPersonal::class.java)
+            addPersonResultLauncher.launch(intent)
+        }
+
+
+
+
 
         switchTheme.setOnCheckedChangeListener { compoundButton, checked ->
             if (!checked) {
