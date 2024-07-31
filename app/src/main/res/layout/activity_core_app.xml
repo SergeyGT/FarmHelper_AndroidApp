@@ -15,10 +15,10 @@
         android:backgroundTint="#FFFFFF"
         android:fontFamily="@font/oswald_extralight"
         android:text="Сотрудники"
+        android:textColorLink="#000000"
         android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.547"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.053" />
@@ -27,7 +27,6 @@
         android:id="@+id/staffList"
         android:layout_width="358dp"
         android:layout_height="530dp"
-        android:backgroundTint="#0B75E2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.49"
@@ -35,31 +34,18 @@
         app:layout_constraintTop_toBottomOf="@+id/labelStuff"
         app:layout_constraintVertical_bias="0.312" />
 
-    <Button
-        android:id="@+id/btnStuffCash"
-        android:layout_width="272dp"
-        android:layout_height="48dp"
-        android:backgroundTint="#0B75E2"
-        android:text="Рассчитать зарплату"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/staffList" />
 
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/switchTheme"
+    <Switch
+        android:id="@+id/switchTheme1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:minHeight="48dp"
+        android:text="Фон"
         android:checked="true"
-        android:textOff="Темная тема"
-        android:textOn="Светлая тема"
-        android:text="Темная тема"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintBottom_toTopOf="@+id/staffList"
+        app:layout_constraintEnd_toStartOf="@+id/labelStuff"
+        app:layout_constraintHorizontal_bias="0.53"
         app:layout_constraintStart_toStartOf="parent"
-        app:showText="false"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.022" />
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

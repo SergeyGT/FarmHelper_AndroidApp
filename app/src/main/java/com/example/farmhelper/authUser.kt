@@ -1,7 +1,5 @@
 package com.example.farmhelper
 
-import User
-
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -35,8 +33,12 @@ class authUser : AppCompatActivity() {
 
             if (result) {
                Toast.makeText(this, "Вы успешно вошли в аккаунт", Toast.LENGTH_LONG).show()
+
                 loginUser.text.clear()
                 passUser.text.clear()
+
+                val intentMainPage = Intent(this, mainPage::class.java)
+                startActivity(intentMainPage)
             } else {
                 Toast.makeText(this, "Данные аккаунта введены неверно или аккаунт не зарегистрирован",
                     Toast.LENGTH_LONG).show()
