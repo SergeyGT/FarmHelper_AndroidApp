@@ -17,6 +17,15 @@
         android:theme="@style/Theme.FarmHelper"
         tools:targetApi="31">
         <activity
+            android:name=".editPersonal"
+            android:exported="false" />
+        <activity
+            android:name=".zpCash"
+            android:exported="false" />
+        <activity
+            android:name=".EditPersonal"
+            android:exported="false" />
+        <activity
             android:name=".addPersonal"
             android:exported="false" />
         <activity
