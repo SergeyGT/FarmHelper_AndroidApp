@@ -43,21 +43,20 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="180dp"
-        android:layout_height="30dp"
-        android:layout_gravity="center"
+        android:layout_width="125dp"
+        android:layout_height="32dp"
         android:layout_marginTop="156dp"
         android:fontFamily="@font/roboto_thin"
+        android:gravity="center"
         android:text="Регистрация"
         android:textColor="#090d01"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/Login"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.632"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.763" />
+        app:layout_constraintVertical_bias="0.76" />
 
     <Button
         android:id="@+id/buttonSign"
