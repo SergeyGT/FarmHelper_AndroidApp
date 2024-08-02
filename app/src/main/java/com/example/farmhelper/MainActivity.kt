@@ -26,6 +26,9 @@ class MainActivity : AppCompatActivity() {
 
         val auth: TextView = findViewById(R.id.auth)
 
+        val db = DBFarm(this, null)
+        //db.dropAllTables()
+
         auth.setOnClickListener {
             val intent_reg = Intent(this, authUser::class.java)
             startActivity(intent_reg)

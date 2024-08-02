@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class coreApp : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -29,30 +30,42 @@ class coreApp : AppCompatActivity() {
         val labelStaff: TextView = findViewById(R.id.labelStuff)
         val btnAdd: Button = findViewById(R.id.addPerson)
 
-        val persons: MutableList<Personal> = arrayListOf()
-        persons.clear()
-        persons.add(Personal(1, "Баранцов Петр Иванович", "Тракторист", 3.5,
-            "Орошение", "base"))
-        persons.add(Personal(2, "Парфенов Василий Сергеевич", "Тракторист", 9.5,
-            "Посев", "base"))
+        var adapter: personAdapter
 
-        val adapter = personAdapter(persons, this)
+        var dbFarm = DBFarm(this, null)
+
+
+        val initialData = dbFarm.getAllEmployees()
+        adapter = personAdapter(initialData.toMutableList(), this)
         staff.layoutManager = LinearLayoutManager(this)
+
         staff.adapter = adapter
+
+//        val persons: MutableList<Personal> = arrayListOf()
+//
+//
+//        val adapter = personAdapter(persons, this)
+//        staff.layoutManager = LinearLayoutManager(this)
+//        staff.adapter = adapter
 
         // Обработка результата из addPersonal
         val addPersonResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
+            if (result.resultCode == RESULT_OK) {
                 val data: Intent? = result.data
                 val newFio = data?.getStringExtra("FIO") ?: return@registerForActivityResult
                 val newProf = data?.getStringExtra("PROF") ?: return@registerForActivityResult
 
-                val newId = persons.size + 1 // Новый ID для нового сотрудника
-                val newPerson = Personal(newId, newFio, newProf, 0.0, "Новая работа", "base")
+                val employee = employee(fio = newFio, proffesion = newProf)
+                dbFarm.addEmployee(employee)
 
-                // Добавление нового сотрудника в список и уведомление адаптера об изменениях
-                persons.add(newPerson)
-                adapter.notifyItemInserted(persons.size - 1)
+                val newEmployee = dbFarm.getAllEmployees()
+                adapter.updateData(newEmployee.toMutableList())
+//                val newId = persons.size + 1 // Новый ID для нового сотрудника
+//                val newPerson = Personal(newId, newFio, newProf, 0.0, "Новая работа", "base")
+
+//                // Добавление нового сотрудника в список и уведомление адаптера об изменениях
+//                persons.add(newPerson)
+//                adapter.notifyItemInserted(persons.size - 1)
             }
         }
 
