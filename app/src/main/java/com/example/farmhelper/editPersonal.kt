@@ -3,6 +3,7 @@ package com.example.farmhelper
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -23,6 +24,9 @@ class editPersonal : AppCompatActivity() {
         val hectarePriceOfWork: EditText = findViewById(R.id.priceGek)
         val btnSave: Button = findViewById(R.id.btnEdit)
 
+        val db = DBFarm(this, null)
+
+
         if (employeeId == -1) {
             println("id not exists")
         }
@@ -35,20 +39,28 @@ class editPersonal : AppCompatActivity() {
             val hectareCount = hectareOfWork.text.toString().trim().toDoubleOrNull() ?: 0.0
             val hectarePrice = hectarePriceOfWork.text.toString().trim().toIntOrNull() ?: 0
 
-            val salary = Salary(
-                employeeId = employeeId,
-                workDate = date,
-                workType = typeWork,
-                hours = hoursWork,
-                hoursRate = priceHour,
-                hectares = hectareCount,
-                hectaresRate = hectarePrice
-            )
 
-            val dbFarm = DBFarm(this, null)
-            dbFarm.addSalary(salary)
+            if (date == "" || typeWork == "" || hoursWork == 0.0 || priceHour == 0 || hectareCount == 0.0 || hectarePrice == 0) {
+                Toast.makeText(this, "Заполните все ячейки поля", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
 
-            finish()
+            else {
+                val salary = Salary(
+                    employeeId = employeeId,
+                    workDate = date,
+                    workType = typeWork,
+                    hours = hoursWork,
+                    hoursRate = priceHour,
+                    hectares = hectareCount,
+                    hectaresRate = hectarePrice
+                )
+
+                val dbFarm = DBFarm(this, null)
+                dbFarm.addSalary(salary)
+
+                finish()
+            }
         }
 
 
