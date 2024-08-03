@@ -6,11 +6,12 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.util.Log
 import androidx.core.content.contentValuesOf
 import androidx.lifecycle.ViewModelProvider
 
 class DBFarm(val context: Context, val factory: SQLiteDatabase.CursorFactory?) :
-    SQLiteOpenHelper(context, "user", factory, 5){
+    SQLiteOpenHelper(context, "user", factory, 8){
     override fun onCreate(db: SQLiteDatabase?) {
         val query = "CREATE TABLE users (idUsers INTEGER PRIMARY KEY AUTOINCREMENT, login TEXT, pass TEXT)"
         db!!.execSQL(query)
@@ -96,6 +97,7 @@ class DBFarm(val context: Context, val factory: SQLiteDatabase.CursorFactory?) :
         valuesSalary.put("hourly_rate", salary.hoursRate)
         valuesSalary.put("hectares", salary.hectares)
         valuesSalary.put("hectare_rate", salary.hectaresRate)
+
         val db = this.writableDatabase
         db.insert("salary", null, valuesSalary)
         db.close()
@@ -118,5 +120,33 @@ class DBFarm(val context: Context, val factory: SQLiteDatabase.CursorFactory?) :
         return employees
 
     }
+
+    fun calculateSalary(employeeId: Int, startDate: String, endDate: String): Double {
+        val db = this.readableDatabase
+        Log.d("DBFarm", "Calculating salary for employeeId: $employeeId, from: $startDate to: $endDate")
+        val query = """
+            SELECT SUM(hours * hourly_rate + hectares * hectare_rate) 
+            FROM salary 
+            WHERE employee_id = ? 
+            AND work_date BETWEEN ? AND ?
+        """
+        // Логирование запроса и параметров
+        Log.d("DBFarm", "SQL Query: $query")
+        Log.d("DBFarm", "Parameters: ${arrayOf(employeeId.toString(), startDate, endDate).joinToString(", ")}")
+        val cursor: Cursor = db.rawQuery(query, arrayOf(employeeId.toString(), startDate, endDate))
+        val totalSalary = if (cursor.moveToFirst()) {
+            val result = cursor.getDouble(0)
+            Log.d("DBFarm", "Total Salary: $result")
+            result
+        } else {
+            Log.d("DBFarm", "No data found.")
+            0.0
+        }
+        cursor.close()
+        db.close()
+        return totalSalary
+    }
+
+
 
 }
