@@ -34,8 +34,10 @@ class personAdapter(var persons:  MutableList<employee>, var context: Context): 
 //        holder.hours.text = String.format("%.2f", persons[position].hours)
         holder.prof.text = persons[position].proffesion
 
+
         holder.btnEdit.setOnClickListener {
             val intentEdit = Intent(context, editPersonal::class.java)
+            intentEdit.putExtra("EMPLOYEE_ID", persons[position].id)
             context.startActivity(intentEdit)
         }
         holder.btnZp.setOnClickListener {
