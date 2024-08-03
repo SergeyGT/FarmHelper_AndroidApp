@@ -8,12 +8,21 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class editPersonal : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_edit_personal)
+
+        fun convertDateFormat(date: String, fromFormat: String = "dd.MM.yyyy", toFormat: String = "yyyy-MM-dd"): String {
+            val inputDateFormat = SimpleDateFormat(fromFormat, Locale.getDefault())
+            val outputDateFormat = SimpleDateFormat(toFormat, Locale.getDefault())
+            val parsedDate = inputDateFormat.parse(date)
+            return outputDateFormat.format(parsedDate)
+        }
 
         val employeeId = intent.getIntExtra("EMPLOYEE_ID", -1)
         val dateOfWork: EditText = findViewById(R.id.dateWork)
@@ -46,9 +55,12 @@ class editPersonal : AppCompatActivity() {
             }
 
             else {
+                val formatStartDate = convertDateFormat(date,"dd.MM.yyyy", "yyyy-MM-dd")
+
+
                 val salary = Salary(
                     employeeId = employeeId,
-                    workDate = date,
+                    workDate = formatStartDate,
                     workType = typeWork,
                     hours = hoursWork,
                     hoursRate = priceHour,
