@@ -11,7 +11,7 @@ import androidx.core.content.contentValuesOf
 import androidx.lifecycle.ViewModelProvider
 
 class DBFarm(val context: Context, val factory: SQLiteDatabase.CursorFactory?) :
-    SQLiteOpenHelper(context, "user", factory, 10){
+    SQLiteOpenHelper(context, "user", factory, 11){
     override fun onCreate(db: SQLiteDatabase?) {
         val query = "CREATE TABLE users (idUsers INTEGER PRIMARY KEY AUTOINCREMENT, login TEXT, pass TEXT)"
         db!!.execSQL(query)
@@ -176,5 +176,19 @@ class DBFarm(val context: Context, val factory: SQLiteDatabase.CursorFactory?) :
         return works
     }
 
+    fun updateSalary(salary: Salary) {
+        val values = ContentValues().apply {
+            put("work_date", salary.workDate)
+            put("work_type", salary.workType)
+            put("hours", salary.hours)
+            put("hourly_rate", salary.hoursRate)
+            put("hectares", salary.hectares)
+            put("hectare_rate", salary.hectaresRate)
+        }
+
+        val db = this.writableDatabase
+        db.update("salary", values, "id = ?", arrayOf(salary.id.toString()))
+        db.close()
+    }
 
 }
