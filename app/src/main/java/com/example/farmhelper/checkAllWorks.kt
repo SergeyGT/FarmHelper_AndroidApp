@@ -28,6 +28,7 @@ class checkAllWorks : AppCompatActivity() {
         adapterWork = workAdapter(dbInitial.toMutableList(), this)
         allWorks.layoutManager = LinearLayoutManager(this)
         allWorks.adapter = adapterWork
+        adapterWork.notifyDataSetChanged()
 
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
