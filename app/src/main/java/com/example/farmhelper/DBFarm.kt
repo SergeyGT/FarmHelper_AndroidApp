@@ -11,7 +11,7 @@ import androidx.core.content.contentValuesOf
 import androidx.lifecycle.ViewModelProvider
 
 class DBFarm(val context: Context, val factory: SQLiteDatabase.CursorFactory?) :
-    SQLiteOpenHelper(context, "user", factory, 8){
+    SQLiteOpenHelper(context, "user", factory, 10){
     override fun onCreate(db: SQLiteDatabase?) {
         val query = "CREATE TABLE users (idUsers INTEGER PRIMARY KEY AUTOINCREMENT, login TEXT, pass TEXT)"
         db!!.execSQL(query)
@@ -147,6 +147,34 @@ class DBFarm(val context: Context, val factory: SQLiteDatabase.CursorFactory?) :
         return totalSalary
     }
 
+    fun getWorksForEmployee(employeeId: Int): List<Salary> {
+        val db = this.readableDatabase
+        val cursor = db.query(
+            "salary",
+            arrayOf("id", "employee_id", "work_date", "work_type", "hours", "hourly_rate", "hectares", "hectare_rate"),
+            "employee_id=?",
+            arrayOf(employeeId.toString()),
+            null,
+            null,
+            null
+        )
+
+        val works = mutableListOf<Salary>()
+        while (cursor.moveToNext()) {
+            val id = cursor.getInt(cursor.getColumnIndexOrThrow("id"))
+            val employeeId = cursor.getInt(cursor.getColumnIndexOrThrow("employee_id"))
+            val workDate = cursor.getString(cursor.getColumnIndexOrThrow("work_date"))
+            val workType = cursor.getString(cursor.getColumnIndexOrThrow("work_type"))
+            val hours = cursor.getDouble(cursor.getColumnIndexOrThrow("hours"))
+            val hoursRate = cursor.getInt(cursor.getColumnIndexOrThrow("hourly_rate"))
+            val hectares = cursor.getDouble(cursor.getColumnIndexOrThrow("hectares"))
+            val hectaresRate = cursor.getInt(cursor.getColumnIndexOrThrow("hectare_rate"))
+            works.add(Salary(id, employeeId, workDate, workType, hours, hoursRate, hectares, hectaresRate))
+        }
+        cursor.close()
+        db.close()
+        return works
+    }
 
 
 }
