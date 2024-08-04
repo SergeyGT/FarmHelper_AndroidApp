@@ -17,6 +17,9 @@
         android:theme="@style/Theme.FarmHelper"
         tools:targetApi="31">
         <activity
+            android:name=".checkAllWorks"
+            android:exported="false" />
+        <activity
             android:name=".editPersonal"
             android:exported="false" />
         <activity
